@@ -1,0 +1,1 @@
+Welcome to the ALX Backend Storage repository. This repository contains projects and assignments focused on MySQL and various storage solutions. It is part of the ALX software engineering curriculum and aims to provide hands-on experience with database management, SQL queries, and storage techniques.
