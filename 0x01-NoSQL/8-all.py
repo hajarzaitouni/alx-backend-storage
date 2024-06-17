@@ -5,7 +5,7 @@
 def list_all(mongo_collection):
     """
     Lists all documents in a collection
-    
+
     Args:
         mongo_collection : The pymongo collection object.
     Return an empty list if no document in the collection
