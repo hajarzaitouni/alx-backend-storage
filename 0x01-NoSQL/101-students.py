@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
+Create a function that
+returns all students sorted by average score
 """
-
-from pymongo import MongoClient
 
 
 def top_students(mongo_collection):
     """
+    List all students sorted by average score
 
     Args:
-        mongo_collection: 
+        mongo_collection: The pymongo collection object
     """
     
     return mongo_collection.aggregate([
