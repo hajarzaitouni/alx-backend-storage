@@ -15,20 +15,16 @@ def cache_result(method: Callable) -> Callable:
     """ Decorator to count accesses and cache the result for 10 seconds """
 
     @functools.wraps(method)
-    def wrapper(url: str, *args, **kwargs) -> str:
+    def wrapper(url: str) -> str:
         # Increment the count for a given URL
         r.incr(f"count:{url}")
 
-        # Try to fetch the cached result
-        cache_key = f"cache:{url}"
-        cached_result = r.get(cache_key)
-        if cached_result:
-            return cached_result.decode("utf-8")
-
-        # Fetch and cache the result if not found in cache
-        result = method(url, *args, **kwargs)
-        r.setex(cache_key, 10, result)
-        return result
+        cached_data = r.get(f"cached:{url}")
+        if cached_data:
+            return cached_data.decode("utf-8")
+        response = method(url)
+        r.setex(f"cached:{url}", 10, response)
+        return response
 
     return wrapper
 
