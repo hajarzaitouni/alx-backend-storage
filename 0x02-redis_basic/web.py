@@ -23,7 +23,6 @@ def cache_result(method: Callable) -> Callable:
         if cached_data:
             return cached_data.decode("utf-8")
         response = method(url)
-        r.set(f"count:{url}", 0)
         r.setex(f"cached:{url}", 10, response)
         return response
 
