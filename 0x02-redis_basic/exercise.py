@@ -78,3 +78,19 @@ class Cache():
     def get_int(self, key: str) -> int:
         """ Retrieve the data stored in Redis and convert it to an integer """
         return self.get(key, lambda s_data: int(s_data))
+
+
+def replay(method: Callable):
+    """ Display the history of calls of a particular function """
+    key = method.__qualname__
+    inputs = f"{key}:inputs"
+    outputs = f"{key}:outputs"
+    r = method.__self__._redis
+    count = r.get(key).decode("utf-8")
+    print(f"{key} was called {count} times:")
+    input_list = r.lrange(inputs, 0, -1)
+    output_list = r.lrange(outputs, 0, -1)
+    redis_zipped = list(zip(input_list, output_list))
+    for inp, out in redis_zipped:
+        attr, data = inp.decode("utf-8"), out.decode("utf-8")
+        print("{}(*{}) -> {}".format(key, attr, data))
